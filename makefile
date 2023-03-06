@@ -1,5 +1,5 @@
 all: main
 main: main.c
-	gсс -Wall -Werror -o myprog myprog.c
+	gсс -Wall -Werror -o main main.c
 run:
 	./main
