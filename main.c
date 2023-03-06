@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-#include <windows.h>
 
 int check_num(char figure[], int *p)
 {
@@ -137,3 +136,4 @@ void circle(char figure[])
         return;
     }
 
+}
