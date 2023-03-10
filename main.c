@@ -135,5 +135,5 @@ void circle(char figure[])
         printf("Error at column %d: unexpected character\n", k);
         return;
     }
-
+	return 0;
 }
