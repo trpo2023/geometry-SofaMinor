@@ -135,5 +135,49 @@ void circle(char figure[])
         printf("Error at column %d: unexpected character\n", k);
         return;
     }
-	return 0;
+
+    while (strchr(str2, figure[k]) != NULL)
+    {
+        k++;
+    }
+
+    if (figure[k] != ')')
+    {
+        printf("Error at column %d: expected ')'\n", k);
+    }
+    else
+    {
+        printf("succeed\n");
+    }
+}
+
+
+int main()
+{
+    printf("Enter number of figures\n");
+    int n;
+    scanf("%d",&n);
+    char figure[64];
+
+    fgets(figure, 64, stdin);
+
+    while (n > 0)
+    {
+        fgets(figure, 64, stdin);
+
+        figure[0] = tolower(figure[0]);
+
+        switch (figure[0])
+        {
+        case 'c':
+            circle(figure);
+            break;
+        default:
+            printf("Error at column 0: expected 'Circle' or 'Triangle'");
+            break;
+        }
+        n--;
+    }
+
+    return 0;
 }
