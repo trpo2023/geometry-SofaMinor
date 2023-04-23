@@ -1,7 +1,3 @@
-/* Copyright 2011-2023 Bas van den Berg
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
 #include <ctest.h>
 #include <math.h>
 #include <stdio.h>
