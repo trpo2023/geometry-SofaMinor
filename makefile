@@ -64,4 +64,3 @@ format:
 -include $(LIB_DEPS) $(APP_DEPS) $(TEST_DEPS)
 
 .PHONY: all run clean test format
-Footer
