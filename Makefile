@@ -1,7 +1,7 @@
 NAME_APP = app
 LIB_NAME = libapp.a
 TEST_NAME = $(NAME_APP)-test
-INPUT_FILE = data.txt
+INPUT_FILE = data
 
 CC = gcc
 CFLAGS = -Wall -Werror
@@ -9,8 +9,8 @@ DEPSFLAGS = -MMD
 
 OBJ_DIR = obj
 BIN_DIR = bin
-APP_DIR = src/app
-LIB_DIR = src/libapp
+APP_DIR = src/geometry
+LIB_DIR = src/libgeometry
 TEST_DIR = test
 LIB_TEST_DIR = thirdparty
 

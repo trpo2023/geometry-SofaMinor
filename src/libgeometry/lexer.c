@@ -1,50 +1,11 @@
 #include <ctype.h>
-#include <math.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#include <handler.h>
-
-double circlePerimeter(double *coords)
-{
-    return 2 * M_PI * coords[2];
-}
-
-double trianglePerimeter(double *coords)
-{
-    int n = MIN_ELEMENTS - 2; // 8, т.к. расположены в виде [x1, y1, x2, y2...]
-    if ((coords[0] != coords[n - 2]) || (coords[1] != coords[n - 1]))
-    {
-        return -1;
-    }
-
-    double sum = 0;
-    for (int i = 2; i < n - 1; i += 2)
-    {
-        sum += sqrt(pow((coords[i] - coords[i - 2]), 2) + pow((coords[i + 1] - coords[i - 1]), 2));
-    }
-    return sum;
-}
-
-double circleArea(double *coords)
-{
-    return M_PI * (coords[2] * coords[2]);
-}
-
-double triangleArea(double *coords, double halfPerimeter)
-{
-    int n = MIN_ELEMENTS - 2;
-    if ((coords[0] != coords[n - 2]) || (coords[1] != coords[n - 1]))
-        return -1;
-
-    double prod = halfPerimeter;
-    for (int i = 2; i < n - 1; i += 2)
-        prod *= halfPerimeter - sqrt(pow((coords[i] - coords[i - 2]), 2) + pow((coords[i + 1] - coords[i - 1]), 2));
-
-    return sqrt(prod);
-}
+#include <lexer.h>
+#include <parser.h>
 
 void addSpaces(int n)
 {
@@ -146,6 +107,7 @@ int circleHandler(char *string, Figure *figure, char *errmsg)
     char *elements = "( ,)";
     int i = CIRCLE_START; // т.к. "circle"
     int j = 0;
+    int count = 0;
 
     skipSpaces(string, figure, &i);
     if (string[i] != elements[0])
@@ -162,8 +124,22 @@ int circleHandler(char *string, Figure *figure, char *errmsg)
         double value = getValue(string, &i, figure, elements[el], errmsg);
         if (strlen(errmsg) == 0)
         {
-            figure->coords[j] = value;
-            j++;
+            if (!count)
+            {
+                figure->coords[j].x = value;
+                count++;
+            }
+            else if (count == 1)
+            {
+                figure->coords[j].y = value;
+                count++;
+            }
+            else if (count == 2)
+            {
+                figure->coords[j].radius = value;
+                j++;
+                count++;
+            }
         }
         else
         {
@@ -186,6 +162,7 @@ int triangleHandler(char *string, Figure *figure, char *errmsg)
     char *elements = "(( , , , ))";
     int i = TRIANGLE_START; // т.к. "triangle"
     int j = 0;
+    bool isX = true;
 
     if (string[i] != elements[0])
     {
@@ -208,8 +185,17 @@ int triangleHandler(char *string, Figure *figure, char *errmsg)
         double value = getValue(string, &i, figure, elements[el], errmsg);
         if (strlen(errmsg) == 0)
         {
-            figure->coords[j] = value;
-            j++;
+            if (isX)
+            {
+                figure->coords[j].x = value;
+                isX = false;
+            }
+            else
+            {
+                figure->coords[j].y = value;
+                isX = true;
+                j++;
+            }
         }
         else
         {
@@ -243,19 +229,19 @@ int stringHandler(char *string, Figure *figure, char *errmsg)
         figure->name[i] = '\0';
         if (!strcmp(figure->name, "circle"))
         {
-            figure->figureType = 0;
+            strcpy(figure->type, "circle");
             i = circleHandler(string, figure, errmsg);
             figure->name[i] = '\0';
-            if (strlen(errmsg) != 0)
+            if (strlen(errmsg))
                 return 1;
             return 0;
         }
-        if (!strcmp(figure->name, "triangle"))
+        else if (!strcmp(figure->name, "triangle"))
         {
-            figure->figureType = 1;
+            strcpy(figure->type, "triangle");
             i = triangleHandler(string, figure, errmsg);
             figure->name[i] = '\0';
-            if (strlen(errmsg) != 0)
+            if (strlen(errmsg))
                 return 1;
             return 0;
         }

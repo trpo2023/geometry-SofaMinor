@@ -15,13 +15,13 @@ CTEST(INPUT_FILE, CHECK_AMOUNT_STRINGS)
     Figure figures[MIN_ELEMENTS];
     char errmsg[MAX_ELEMENTS];
     errmsg[0] = '\0';
-    ASSERT_EQUAL(3, readFile("data.txt", figures, errmsg));
+    ASSERT_EQUAL(3, readFile("data", figures, errmsg));
 }
 
 // Проверка на синтаксические ошибки в названии фигур
 CTEST(SYNTAX_ERRORS, CHECK_STRING)
 {
-    FILE *file = fopen("test/input/errors_in_words.txt", "r");
+    FILE *file = fopen("test/input/ErrorsInWords.txt", "r");
     Figure figures[MIN_ELEMENTS];
     char errmsg[MAX_ELEMENTS];
     char line[MAX_ELEMENTS];
@@ -39,7 +39,7 @@ CTEST(SYNTAX_ERRORS, CHECK_STRING)
 // Проверка на ошибки в указании координат для фигур
 CTEST(VALUES_ERRORS, CHECK_STRING)
 {
-    FILE *file = fopen("test/input/errors_in_values.txt", "r");
+    FILE *file = fopen("test/input/ErrorsInValues.txt", "r");
     Figure figures[MIN_ELEMENTS];
     char errmsg[MAX_ELEMENTS];
     char line[MAX_ELEMENTS];
@@ -60,7 +60,7 @@ CTEST(VALUES_ERRORS, CHECK_STRING)
 // Проверка функции, которая "вытаскивает" значение из строки и конвертирует его в double
 CTEST(TAKE_ELEMENTS, TAKE_VALUE)
 {
-    FILE *file = fopen("data.txt", "r");
+    FILE *file = fopen("data", "r");
     Figure figures[MIN_ELEMENTS];
     char errmsg[MAX_ELEMENTS];
     char line[MAX_ELEMENTS];
@@ -126,7 +126,7 @@ CTEST(INPUT_FILE, CHECK_CIRCLE_AREA)
 {
     Figure figures[MIN_ELEMENTS];
     char errmsg[MAX_ELEMENTS];
-    readFile("data.txt", figures, errmsg);
+    readFile("data", figures, errmsg);
     ASSERT_DBL_NEAR(M_PI * pow(figures[1].coords[0].radius, 2), circleArea(figures[1].coords));
 }
 
@@ -135,7 +135,7 @@ CTEST(FIGURE_SET, CHECK_INTERSECTIONS)
 {
     Figure figures[MIN_ELEMENTS];
     char errmsg[MAX_ELEMENTS];
-    int count = readFile("data.txt", figures, errmsg);
+    int count = readFile("data", figures, errmsg);
     int triangles[] = {2, 0};
     int circle[] = {1, 3, 0};
     for (int i = 0; i < count; i++)
